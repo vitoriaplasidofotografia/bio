@@ -1,5 +1,4 @@
 <!doctype html><html><head>
-<link rel="icon" type="image/png" href="img/favicon.png">
 <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
@@ -8,6 +7,7 @@ fbq('track', 'PageView');
 </script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2019471012057081&ev=PageView&noscript=1"/></noscript>
 <!-- End Meta Pixel Code -->
+<link rel="icon" type="image/png" href="img/favicon.png">
 <meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Links Vitória Plasido</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,6 +31,7 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--sans);f
 a{color:inherit}
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 .sky{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.shoot-layer{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:3}
 .page{position:relative;z-index:1;max-width:460px;margin:0 auto;padding:28px 20px 40px;display:flex;flex-direction:column;align-items:center;text-align:center}
 
 .arch{position:relative;width:100%;max-width:300px;aspect-ratio:1/1.05;border-radius:160px 160px 10px 10px;overflow:hidden;box-shadow:0 22px 50px rgba(51,64,47,.16);animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
@@ -85,6 +86,7 @@ h1{font-family:var(--script);font-weight:400;color:var(--gold);font-size:clamp(4
 </style>
 
 <canvas class="sky" aria-hidden="true"></canvas>
+<canvas class="shoot-layer" aria-hidden="true"></canvas>
 
 <main class="page">
   <img class="logo" src="img/logo-crop.png" alt="Vitória Plasido Fotografia">
@@ -107,7 +109,7 @@ h1{font-family:var(--script);font-weight:400;color:var(--gold);font-size:clamp(4
       </a>
     </li>
     <li>
-      <a class="lk vip wa" data-msg="Olá, Vitória! Quero entrar no Grupo VIP da campanha Uma história de Natal. 🎄" href="https://wa.me/555196505837">
+      <a class="lk vip wa" href="https://chat.whatsapp.com/DgpMbaPRsQ2FkxfL30hxgE">
         <span class="tag">Acesso antecipado</span>
         <span class="ic"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11l5 4 6-8 6 8 5-4-2 13H7z"/><path d="M7 27h18"/></svg></span>
         <span class="tx"><b>Entre no Grupo VIP</b><small>Receba as datas e novidades primeiro</small></span>
@@ -138,7 +140,7 @@ h1{font-family:var(--script);font-weight:400;color:var(--gold);font-size:clamp(4
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var cv=document.querySelector('.sky'), ctx=cv.getContext('2d'), parts=[], w=0, h=0, dpr=Math.min(2,window.devicePixelRatio||1);
   function make(any){return {x:Math.random()*w,y:any?Math.random()*h:-10,r:Math.random()*2+0.8,vy:Math.random()*0.3+0.12,vx:Math.random()*0.2-0.1,a:Math.random()*0.45+0.3,star:Math.random()<0.4,rot:Math.random()*6};}
-  function size(){w=innerWidth;h=innerHeight;cv.width=w*dpr;cv.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);parts=[];for(var i=0;i<Math.round(w/14);i++)parts.push(make(true));}
+  function size(){w=innerWidth;h=innerHeight;cv.width=w*dpr;cv.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);sc.width=w*dpr;sc.height=h*dpr;sctx.setTransform(dpr,0,0,dpr,0,0);parts=[];for(var i=0;i<Math.round(w/14);i++)parts.push(make(true));}
   function star(x,y,r,rot){ctx.beginPath();for(var i=0;i<10;i++){var an=rot+i*Math.PI/5,rr=i%2?r*0.45:r*1.6;ctx.lineTo(x+Math.cos(an)*rr,y+Math.sin(an)*rr);}ctx.closePath();ctx.fill();}
   function frame(){
     ctx.clearRect(0,0,w,h);
@@ -148,8 +150,33 @@ h1{font-family:var(--script);font-weight:400;color:var(--gold);font-size:clamp(4
       ctx.fillStyle='rgba(176,138,79,'+p.a+')';
       if(p.star)star(p.x,p.y,p.r,p.rot);else{ctx.beginPath();ctx.arc(p.x,p.y,p.r*0.8,0,6.28);ctx.fill();}
     });
+    // estrela cadente: passa de tempos em tempos, atrás da logo
+    var now=performance.now();
+    if(!shoot && now>nextShoot){
+      shoot={x:-60, y:Math.random()*h*0.35, vx:3+Math.random()*1, vy:0.4+Math.random()*0.5, life:0};
+      nextShoot=now+2500+Math.random()*2000;
+    }
+    sctx.clearRect(0,0,w,h);
+    if(shoot){
+      shoot.x+=shoot.vx; shoot.y+=shoot.vy; shoot.life++;
+      var tx=shoot.x-shoot.vx*16, ty=shoot.y-shoot.vy*16;
+      var g=sctx.createLinearGradient(tx,ty,shoot.x,shoot.y);
+      g.addColorStop(0,'rgba(255,240,200,0)'); g.addColorStop(1,'rgba(255,250,230,1)');
+      sctx.shadowColor='rgba(230,201,143,0.95)'; sctx.shadowBlur=14;
+      sctx.strokeStyle=g; sctx.lineWidth=2.6; sctx.lineCap='round';
+      sctx.beginPath(); sctx.moveTo(tx,ty); sctx.lineTo(shoot.x,shoot.y); sctx.stroke();
+      sctx.shadowBlur=0; sctx.fillStyle='#FFF8E6';
+      sctx.beginPath();
+      for(var k=0;k<10;k++){
+        var an=shoot.life*0.08+k*Math.PI/5, rr=k%2?2.8:6.5;
+        sctx.lineTo(shoot.x+Math.cos(an)*rr, shoot.y+Math.sin(an)*rr);
+      }
+      sctx.closePath(); sctx.fill();
+      if(shoot.x>w+80 || shoot.y>h+80 || shoot.life>400) shoot=null;
+    }
     requestAnimationFrame(frame);
   }
+  var shoot=null, nextShoot=performance.now()+3000, sc=document.querySelector('.shoot-layer'), sctx=sc.getContext('2d');
   size();addEventListener('resize',size);frame();
 })();
 </script>
