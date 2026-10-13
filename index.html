@@ -153,4 +153,12 @@ h1{font-family:var(--script);font-weight:400;color:var(--gold);font-size:clamp(4
 })();
 </script>
 
+<script>
+/* Meta: ViewContent quando qualquer botão/link da bio é clicado */
+document.addEventListener('click', function(e){
+  var a = e.target.closest('a');
+  if(!a || !window.fbq) return;
+  fbq('track', 'ViewContent', {content_name: (a.getAttribute('aria-label') || a.textContent || a.href).trim().slice(0, 80)});
+});
+</script>
 </body></html>
